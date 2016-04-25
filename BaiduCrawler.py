@@ -6,16 +6,24 @@ from bs4 import BeautifulSoup
 
 
 word = input("Input your keywords: ") # keyword to be searched
-num = input("Input the number of results you want: ") # num of news to be crawled
-num = int(num)
+maxNum = 200
+num = input("Input the number of results you want (max = " + str(maxNum) + "): ") # num of news to be crawled
+while True:
+    try:
+        num = min(int(num), 200)
+        break
+    except:
+        print('Invalid value.')
+        num = input("Input the number of results you want: ") # num of news to be crawled
+
 rn = 50 # num of news per page
 
 header = { 'Use-Agent':'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6' }
 
-q = {}
 page = 1
 
 while num > 0:
+    q = {}
     q['word'] = word
     if num > rn:
         q['rn'] = rn
@@ -42,3 +50,5 @@ while num > 0:
         title = title.replace('</em>', '')
         print (title)
         print (link['href'])
+
+input("Press Enter to quit...")
